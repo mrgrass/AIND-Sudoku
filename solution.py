@@ -1,14 +1,36 @@
 import numpy as np
 from collections import Counter
 
+def cross(A, B):
+    """Cross product of elements in A and elements in B."""
+    return [s+t for s in A for t in B]
+
 assignments = []
 
 rows = 'ABCDEFGHI'
 cols = '123456789'
 
+# Set diagonal_flag to True for solve diagonal sudoku
+diagonal_flag = True
+
+boxes = cross(rows, cols)
+row_units = [cross(r, cols) for r in rows]
+column_units = [cross(rows, c) for c in cols]
+square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
+
+# Build the diagonal boxes labels
+diagonal_units = [[(rows[k]+cols[k]) for k in range(9)],[(rows[k]+cols[8-k]) for k in range(9)]]
+# Add the diagonal boxes labels to units if diagonal_flag is True
+if (diagonal_flag):
+    unitlist = row_units + column_units + square_units + diagonal_units
+else:
+    unitlist = row_units + column_units + square_units
+
+units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
+peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
+
 def assign_value(values, box, value):
-    """
-    Please use this function to update your values dictionary!
+    """Please use this function to update your values dictionary!
     Assigns a value to a given box. If it updates the board record it.
     """
     values[box] = value
@@ -40,32 +62,8 @@ def naked_twins(values):
                         #values[box] = values[box].replace(v,'')
     return values
 
-def cross(A, B):
-    "Cross product of elements in A and elements in B."
-    return [s+t for s in A for t in B]
-
-# Set diagonal_flag to True for solve diagonal sudoku
-diagonal_flag = True
-
-boxes = cross(rows, cols)
-row_units = [cross(r, cols) for r in rows]
-column_units = [cross(rows, c) for c in cols]
-square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
-
-# Build the diagonal boxes labels
-diagonal_units = [[(rows[k]+cols[k]) for k in range(9)],[(rows[k]+cols[8-k]) for k in range(9)]]
-# Add the diagonal boxes labels to units if diagonal_flag is True
-if (diagonal):
-    unitlist = row_units + column_units + square_units + diagonal_units
-else:
-    unitlist = row_units + column_units + square_units
-
-units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
-peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
-
 def grid_values(grid):
-    """
-    Convert grid into a dict of {square: char} with '123456789' for empties.
+    """Convert grid into a dict of {square: char} with '123456789' for empties.
     Args:
         grid(string) - A grid in string form.
     Returns:
@@ -81,8 +79,7 @@ def grid_values(grid):
     return dict_grid
 
 def display(values):
-    """
-    Display the values as a 2-D grid.
+    """Display the values as a 2-D grid.
     Args:
         values(dict): The sudoku in dictionary form
     """
@@ -96,10 +93,6 @@ def display(values):
 
 def eliminate(values):
     """Eliminate values from peers of each box with a single value.
-
-    Go through all the boxes, and whenever there is a box with a single value,
-    eliminate this value from the set of values of all its peers.
-
     Args:
         values: Sudoku in dictionary form.
     Returns:
@@ -114,10 +107,6 @@ def eliminate(values):
 
 def only_choice(values):
     """Finalize all values that are the only choice for a unit.
-
-    Go through all the units, and whenever there is a unit with a value
-    that only fits in one box, assign the value to this box.
-
     Args:
         values: Sudoku in dictionary form.
     Returns:
@@ -132,9 +121,7 @@ def only_choice(values):
     return values
 
 def reduce_puzzle(values):
-    """
-    Iterate eliminate(), only_choice and naked_twins();
-
+    """Iterate eliminate(), only_choice() and naked_twins();
     Args:
         values: Sudoku in dictionary form.
     Returns:
@@ -165,10 +152,7 @@ def reduce_puzzle(values):
 
 
 def search(values):
-    """
-    First, reduce the puzzle using reduce_puzzle().
-    Using depth-first search and propagation, create a search tree and solve the sudoku.
-
+    """First, reduce the puzzle using reduce_puzzle(). Using depth-first search and propagation, create a search tree and solve the sudoku.
     Args:
         values: Sudoku in dictionary form.
     Returns:
@@ -195,8 +179,7 @@ def search(values):
         return values
 
 def solve(grid):
-    """
-    Find the solution to a Sudoku grid.
+    """Find the solution to a Sudoku grid.
     Args:
         grid(string): a string representing a sudoku grid.
             Example: '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'

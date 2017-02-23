@@ -4,12 +4,12 @@
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?
 
-A: Naked twins strategy is based on the fact that if in the same unit there are 2 cell with the same possible pair values these values could be removed from the other cells of the unit otherwise the Sudoku constrain is not satisfy.
+A: The constraint propagation technique is a method to reduce the search space of a problem. Sudoku constraint is that every unit (row, column, square) must contain every digit and just once; propagating this constraint we obtain that if in the unit A two cells, x and y, contain the same 2 values, m and n, therefore all the other cells of A could not contain m and n.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
 
-A: The diagonal Sudoku introduces a constraint to the standard Sudoku, every diagonal should contain every number and just once. This constraint is similar to the constraint of the other unit (row, column, square) therefore all the method develop cuold be apply to this unit type to reduce the possible numbers of the diagonal cells (eg. if a diagonal cell contains only a number this number must be removed from all the other diagonal cells of the unit).
+A: The diagonal Sudoku introduces a constraint to the standard Sudoku: every diagonal should contain every number and just once. This constraint propagates in a way similar to the constraint of the other unit (row, column, square), therefore all the methods developed could be applied to this unit type in order to reduce the possible numbers of the diagonal cells (eg. if a diagonal cell contains only a number, this number must be removed from all the other diagonal cells of the unit).
 
 ### Install
 
