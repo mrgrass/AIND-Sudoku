@@ -4,7 +4,7 @@
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?
 
-A: The constraint propagation technique is a method to reduce the search space of a problem. Sudoku constraint is that every unit (row, column, square) must contain every digit and just once; propagating this constraint we obtain that if in the unit A two cells, x and y, contain the same 2 values, m and n, therefore all the other cells of A could not contain m and n.
+A: The constraint propagation technique is a method to reduce the search space of a problem. Sudoku constraint is that every unit (row, column, square) must contain every digit and just once; propagating this constraint we obtain that if in the unit *A* two cells, *x* and *y*, contain the same 2 values, *m* and *n*, therefore all the other cells of A could not contain *m* and *n*.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
